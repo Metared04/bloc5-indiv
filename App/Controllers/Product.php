@@ -24,7 +24,9 @@ class Product extends \Core\Controller
             try {
                 $f = $_POST;
 
-                // TODO: Validation
+                if (!isset($_FILES['picture']) || $_FILES['picture']['error'] !== UPLOAD_ERR_OK) {
+                    throw new \Exception('Une photo est obligatoire pour publier une annonce.');
+                }
 
                 $f['user_id'] = $_SESSION['user']['id'];
                 $id = Articles::save($f);
@@ -35,7 +37,11 @@ class Product extends \Core\Controller
 
                 header('Location: /product/' . $id);
             } catch (\Exception $e){
-                    var_dump($e);
+                    //var_dump($e);
+                View::renderTemplate('Product/Add.html', [
+                    'error' => $e->getMessage()
+                ]);
+                return;
             }
         }
 
