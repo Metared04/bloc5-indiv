@@ -1,0 +1,33 @@
+.container-fluid.bg-image {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.login-wraper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    padding: 40px 20px;
+    gap: 40px;
+}
+
+.login-wraper .login-window {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    width: 100%;
+    max-width: 570px;
+}
+
+.banner-text {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    margin: 0 !important;
+    width: auto !important;
+    max-width: 500px;
+}
