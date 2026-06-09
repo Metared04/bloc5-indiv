@@ -24,14 +24,13 @@ class User extends \Core\Controller
     public function loginAction()
     {
         if(isset($_POST['submit'])){
+
             $f = $_POST;
-
-            // TODO: Validation
-
-            $this->login($f);
-
-            // Si login OK, redirige vers le compte
-            header('Location: /account');
+            
+            if($this->login($f)){
+                header('Location: /account');
+                exit;
+            }
         }
 
         View::renderTemplate('User/login.html');
@@ -52,7 +51,9 @@ class User extends \Core\Controller
             // validation
 
             $this->register($f);
-            // TODO: Rappeler la fonction de login pour connecter l'utilisateur
+            $this->login($f);
+            header('Location: /account');
+            return;
         }
 
         View::renderTemplate('User/register.html');
@@ -140,7 +141,6 @@ class User extends \Core\Controller
             // https://github.com/andrewdyer/php-mvc-register-login/blob/development/www/app/Model/UserLogin.php#L148
         }*/
         // Destroy all data registered to the session.
-
         $_SESSION = array();
 
         if (ini_get("session.use_cookies")) {
