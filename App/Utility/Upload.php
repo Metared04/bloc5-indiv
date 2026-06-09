@@ -7,8 +7,8 @@ class Upload {
 
     public static function uploadFile($file, $fileName)
     {
-        $currentDirectory = getcwd();
-        $uploadDirectory = "/storage/";
+        //$currentDirectory = getcwd();
+        //$uploadDirectory = "/storage/";
 
 
         $fileExtensionsAllowed = ['jpeg', 'jpg', 'png'];
@@ -20,7 +20,7 @@ class Upload {
         $pictureName = basename($fileName . '.'. $fileExtension);
 
 
-        $uploadPath = $currentDirectory . $uploadDirectory . $pictureName;
+        $uploadPath = dirname(__DIR__, 2) . '/public/storage/' . $pictureName;
 
         if (!in_array($fileExtension, $fileExtensionsAllowed)) {
             throw new \Exception("This file extension is not allowed. Please upload a JPEG or PNG file");
