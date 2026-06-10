@@ -68,4 +68,13 @@ class Product extends \Core\Controller
             'suggestions' => $suggestions
         ]);
     }
+    public function contactAction()
+    {
+        if(isset($_POST['submit'])){
+            $articleId = $_POST['article_id'];
+            header('Location: /product/' . $articleId . '?sent=1');
+            exit;
+        }
+        header('Location: /');
+    }
 }
