@@ -108,9 +108,11 @@ class User extends \Core\Controller
                 return false;
             }
 
-            // TODO: Create a remember me cookie if the user has selected the option
-            // to remained logged in on the login form.
-            // https://github.com/andrewdyer/php-mvc-register-login/blob/development/www/app/Model/UserLogin.php#L86
+            if(isset($data['remember_me']) && $data['remember_me'] === '1'){
+                $expire = time() + (30 * 24 * 60 * 60); // 30 jours
+                setcookie('remember_email', $data['email'], $expire, '/');
+                setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/');
+            }
 
             $_SESSION['user'] = array(
                 'id' => $user['id'],
@@ -121,7 +123,7 @@ class User extends \Core\Controller
 
         } catch (Exception $ex) {
             // TODO : Set flash if error
-            /* Utility\Flash::danger($ex->getMessage());*/
+            //Utility\Flash::danger($ex->getMessage());
         }
     }
 

@@ -52,6 +52,7 @@ class User extends Model {
      * @return string|boolean
      * @throws Exception
      */
+    /*
     public static function login() {
         $db = static::getDB();
 
@@ -61,6 +62,6 @@ class User extends Model {
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
+    */
 
 }
