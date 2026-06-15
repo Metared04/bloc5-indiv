@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  php:
+    build:
+      context: ./docker/recette/php
+      dockerfile: Dockerfile
+    volumes: []
+    environment:
+      APP_ENV: recette
+  
+  mysql:
+    volumes:
+      - mysql_data_recette:/var/lib/mysql
+      - ./docker/dev/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+  
+  phpmyadmin:
+    profiles:
+      - disabled
+
+volumes:
+  mysql_data_recette:
