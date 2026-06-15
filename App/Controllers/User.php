@@ -44,16 +44,38 @@ class User extends \Core\Controller
         if(isset($_POST['submit'])){
             $f = $_POST;
 
+            if (empty($f['username']) || empty($f['email']) || empty($f['password']) || empty($f['password-check'])){
+                View::renderTemplate('User/register.html');
+                return;
+            }
+
             if($f['password'] !== $f['password-check']){
                 // TODO: Gestion d'erreur côté utilisateur
+                View::renderTemplate('User/register.html');
+                return;
+            }
+
+            $userId = $this->register($f);
+
+            if (!$userId) {
+                // TODO: flash error — email déjà utilisé ou erreur serveur
+                View::renderTemplate('User/register.html');
+                return;
+            }
+
+            if ($this->login($f)) {
+                header('Location: /account');
+                exit;
             }
 
             // validation
 
-            $this->register($f);
-            $this->login($f);
-            header('Location: /account');
-            return;
+            //$this->register($f);
+            //$this->login($f);
+            //header('Location: /account');
+            //return;
+            header('Location: /login');
+            exit;
         }
 
         View::renderTemplate('User/register.html');
@@ -93,6 +115,8 @@ class User extends \Core\Controller
         } catch (Exception $ex) {
             // TODO : Set flash if error : utiliser la fonction en dessous
             /* Utility\Flash::danger($ex->getMessage());*/
+            error_log('[User::register] ' . $ex->getMessage());
+            return false;
         }
     }
 
