@@ -25,9 +25,9 @@ class User extends \Core\Controller
     {
         if(isset($_POST['submit'])){
 
-            $f = $_POST;
+            $userFormData = $_POST;
             
-            if($this->login($f)){
+            if($this->login($userFormData)){
                 header('Location: /account');
                 exit;
             }
@@ -42,20 +42,20 @@ class User extends \Core\Controller
     public function registerAction()
     {
         if(isset($_POST['submit'])){
-            $f = $_POST;
+            $userFormData = $_POST;
 
-            if (empty($f['username']) || empty($f['email']) || empty($f['password']) || empty($f['password-check'])){
+            if (empty($userFormData['username']) || empty($userFormData['email']) || empty($userFormData['password']) || empty($userFormData['password-check'])){
                 View::renderTemplate('User/register.html');
                 return;
             }
 
-            if($f['password'] !== $f['password-check']){
+            if($userFormData['password'] !== $userFormData['password-check']){
                 // TODO: Gestion d'erreur côté utilisateur
                 View::renderTemplate('User/register.html');
                 return;
             }
 
-            $userId = $this->register($f);
+            $userId = $this->register($userFormData);
 
             if (!$userId) {
                 // TODO: flash error — email déjà utilisé ou erreur serveur
@@ -63,15 +63,15 @@ class User extends \Core\Controller
                 return;
             }
 
-            if ($this->login($f)) {
+            if ($this->login($userFormData)) {
                 header('Location: /account');
                 exit;
             }
 
             // validation
 
-            //$this->register($f);
-            //$this->login($f);
+            //$this->register($userFormData);
+            //$this->login($userFormData);
             //header('Location: /account');
             //return;
             header('Location: /login');

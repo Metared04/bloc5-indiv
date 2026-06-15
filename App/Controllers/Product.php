@@ -22,21 +22,21 @@ class Product extends \Core\Controller
         if(isset($_POST['submit'])) {
 
             try {
-                $f = $_POST;
+                $formData = $_POST;
 
-                $f['user_id'] = $_SESSION['user']['id'];
+                $formData['user_id'] = $_SESSION['user']['id'];
 
                 if(!isset($_FILES['picture']) || $_FILES['picture']['error'] !== UPLOAD_ERR_OK){
                     throw new \Exception('Une photo est obligatoire.');
                 }
 
-                $id = Articles::save($f);
+                $article = Articles::save($formData);
 
-                $pictureName = Upload::uploadFile($_FILES['picture'], $id);
+                $pictureName = Upload::uploadFile($_FILES['picture'], $article);
 
-                Articles::attachPicture($id, $pictureName);
+                Articles::attachPicture($article, $pictureName);
 
-                header('Location: /product/' . $id);
+                header('Location: /product/' . $article);
                 exit;
             } catch (\Exception $e){
                 View::renderTemplate('Product/Add.html', ['error' => $e->getMessage()]);
