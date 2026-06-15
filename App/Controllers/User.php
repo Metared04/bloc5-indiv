@@ -134,8 +134,10 @@ class User extends \Core\Controller
 
             if(isset($data['remember_me']) && $data['remember_me'] === '1'){
                 $expire = time() + (30 * 24 * 60 * 60); // 30 jours
-                setcookie('remember_email', $data['email'], $expire, '/');
-                setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/');
+                //setcookie('remember_email', $data['email'], $expire, '/');
+                setcookie('remember_email', $data['email'], $expire, '/', '', true, true);
+                //setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/');
+                setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/', '', true, true);
             }
 
             $_SESSION['user'] = array(
@@ -167,6 +169,9 @@ class User extends \Core\Controller
             // https://github.com/andrewdyer/php-mvc-register-login/blob/development/www/app/Model/UserLogin.php#L148
         }*/
         // Destroy all data registered to the session.
+        setcookie('remember_email', '', time() - 3600, '/', '', true, true);
+        setcookie('remember_token', '', time() - 3600, '/', '', true, true);
+        
         $_SESSION = array();
 
         if (ini_get("session.use_cookies")) {
