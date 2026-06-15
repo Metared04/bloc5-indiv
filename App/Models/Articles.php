@@ -116,7 +116,6 @@ class Articles extends Model {
     }
 
 
-
     /**
      * ?
      * @access public
@@ -151,8 +150,5 @@ class Articles extends Model {
 
         $stmt->execute();
     }
-
-
-
 
 }
