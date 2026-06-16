@@ -6,6 +6,18 @@
  * PHP version 7.0
  */
 
+/**
+ * Composer
+ */
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+/**
+ * Error and Exception handling
+ */
+error_reporting(E_ALL);
+set_error_handler('Core\Error::errorHandler');
+set_exception_handler('Core\Error::exceptionHandler');
+
 session_start();
 
 if (!isset($_SESSION['user']) && isset($_COOKIE['remember_email']) && isset($_COOKIE['remember_token'])){
@@ -24,20 +36,6 @@ if (!isset($_SESSION['user']) && isset($_COOKIE['remember_email']) && isset($_CO
         setcookie('remember_token', '', time() - 3600, '/');
     }
 }
-
-/**
- * Composer
- */
-require dirname(__DIR__) . '/vendor/autoload.php';
-
-
-/**
- * Error and Exception handling
- */
-error_reporting(E_ALL);
-set_error_handler('Core\Error::errorHandler');
-set_exception_handler('Core\Error::exceptionHandler');
-
 
 /**
  * Routing
