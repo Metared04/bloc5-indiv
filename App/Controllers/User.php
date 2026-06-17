@@ -25,9 +25,9 @@ class User extends \Core\Controller
     {
         if(isset($_POST['submit'])){
 
-            $f = $_POST;
+            $userFormData = $_POST;
             
-            if($this->login($f)){
+            if($this->login($userFormData)){
                 header('Location: /account');
                 exit;
             }
@@ -42,20 +42,20 @@ class User extends \Core\Controller
     public function registerAction()
     {
         if(isset($_POST['submit'])){
-            $f = $_POST;
+            $userFormData = $_POST;
 
-            if (empty($f['username']) || empty($f['email']) || empty($f['password']) || empty($f['password-check'])){
+            if (empty($userFormData['username']) || empty($userFormData['email']) || empty($userFormData['password']) || empty($userFormData['password-check'])){
                 View::renderTemplate('User/register.html');
                 return;
             }
 
-            if($f['password'] !== $f['password-check']){
+            if($userFormData['password'] !== $userFormData['password-check']){
                 // TODO: Gestion d'erreur côté utilisateur
                 View::renderTemplate('User/register.html');
                 return;
             }
 
-            $userId = $this->register($f);
+            $userId = $this->register($userFormData);
 
             if (!$userId) {
                 // TODO: flash error — email déjà utilisé ou erreur serveur
@@ -63,15 +63,15 @@ class User extends \Core\Controller
                 return;
             }
 
-            if ($this->login($f)) {
+            if ($this->login($userFormData)) {
                 header('Location: /account');
                 exit;
             }
 
             // validation
 
-            //$this->register($f);
-            //$this->login($f);
+            //$this->register($userFormData);
+            //$this->login($userFormData);
             //header('Location: /account');
             //return;
             header('Location: /login');
@@ -134,8 +134,10 @@ class User extends \Core\Controller
 
             if(isset($data['remember_me']) && $data['remember_me'] === '1'){
                 $expire = time() + (30 * 24 * 60 * 60); // 30 jours
-                setcookie('remember_email', $data['email'], $expire, '/');
-                setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/');
+                //setcookie('remember_email', $data['email'], $expire, '/');
+                setcookie('remember_email', $data['email'], $expire, '/', '', true, true);
+                //setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/');
+                setcookie('remember_token', Hash::generate($data['email'], $user['salt']), $expire, '/', '', true, true);
             }
 
             $_SESSION['user'] = array(
@@ -167,6 +169,9 @@ class User extends \Core\Controller
             // https://github.com/andrewdyer/php-mvc-register-login/blob/development/www/app/Model/UserLogin.php#L148
         }*/
         // Destroy all data registered to the session.
+        setcookie('remember_email', '', time() - 3600, '/', '', true, true);
+        setcookie('remember_token', '', time() - 3600, '/', '', true, true);
+        
         $_SESSION = array();
 
         if (ini_get("session.use_cookies")) {

@@ -16,7 +16,7 @@ class Upload {
         $fileSize = $file['size'];
         $fileTmpName = $file['tmp_name'];
 
-        $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $pictureName = basename($fileName . '.'. $fileExtension);
 
 

@@ -13,6 +13,18 @@ use App\Utility;
  */
 class Articles extends Model {
 
+
+    public static function buildOrderClause(string $filter): string
+    {
+        switch ($filter) {
+            case 'views':
+                return ' ORDER BY articles.views DESC';
+            case 'date':
+                return ' ORDER BY articles.published_date DESC';
+            default:
+                return '';
+        }
+    }
     /**
      * ?
      * @access public
@@ -22,18 +34,7 @@ class Articles extends Model {
     public static function getAll($filter) {
         $db = static::getDB();
 
-        $query = 'SELECT * FROM articles ';
-
-        switch ($filter){
-            case 'views':
-                $query .= ' ORDER BY articles.views DESC';
-                break;
-            case 'date':
-                $query .= ' ORDER BY articles.published_date DESC';
-                break;
-            case '':
-                break;
-        }
+        $query = 'SELECT * FROM articles' . self::buildOrderClause($filter);
 
         $stmt = $db->query($query);
 
@@ -116,7 +117,6 @@ class Articles extends Model {
     }
 
 
-
     /**
      * ?
      * @access public
@@ -151,8 +151,5 @@ class Articles extends Model {
 
         $stmt->execute();
     }
-
-
-
 
 }

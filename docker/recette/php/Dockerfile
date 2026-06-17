@@ -10,11 +10,14 @@ RUN docker-php-ext-install pdo pdo_mysql mbstring zip gd
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+COPY php-recette.ini /usr/local/etc/php/conf.d/php-recette.ini
+COPY apache/vhost.conf /etc/apache2/sites-available/000-default.conf
+
 RUN a2enmod rewrite
 
 WORKDIR /var/www/html
 
-COPY ../../app/ /var/www/html/
+COPY . /var/www/html/
 
 RUN composer install --no-dev --optimize-autoloader
 

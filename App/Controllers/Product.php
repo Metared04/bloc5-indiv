@@ -22,21 +22,21 @@ class Product extends \Core\Controller
         if(isset($_POST['submit'])) {
 
             try {
-                $f = $_POST;
+                $formData = $_POST;
 
-                $f['user_id'] = $_SESSION['user']['id'];
+                $formData['user_id'] = $_SESSION['user']['id'];
 
                 if(!isset($_FILES['picture']) || $_FILES['picture']['error'] !== UPLOAD_ERR_OK){
                     throw new \Exception('Une photo est obligatoire.');
                 }
 
-                $id = Articles::save($f);
+                $article = Articles::save($formData);
 
-                $pictureName = Upload::uploadFile($_FILES['picture'], $id);
+                $pictureName = Upload::uploadFile($_FILES['picture'], $article);
 
-                Articles::attachPicture($id, $pictureName);
+                Articles::attachPicture($article, $pictureName);
 
-                header('Location: /product/' . $id);
+                header('Location: /product/' . $article);
                 exit;
             } catch (\Exception $e){
                 View::renderTemplate('Product/Add.html', ['error' => $e->getMessage()]);
@@ -70,11 +70,64 @@ class Product extends \Core\Controller
     }
     public function contactAction()
     {
+        /*
         if(isset($_POST['submit'])){
             $articleId = $_POST['article_id'];
             header('Location: /product/' . $articleId . '?sent=1');
             exit;
         }
         header('Location: /');
+        */
+        if (isset($_POST['submit'])) {
+            $articleId = (int) ($_POST['article_id'] ?? 0);
+            $email = trim($_POST['contact_email'] ?? '');
+            $message = trim($_POST['contact_message'] ?? '');
+
+            if ($articleId <= 0) {
+                header('Location: /');
+                exit;
+            }
+
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                header('Location: /product/' . $articleId . '?error=email');
+                exit;
+            }
+
+            if (empty($message)) {
+                header('Location: /product/' . $articleId . '?error=message');
+                exit;
+            }
+
+            try {
+
+                $article = Articles::getOne($articleId);
+
+                if (empty($article)) {
+                    header('Location: /');
+                    exit;
+                }
+                $article = $article[0];
+
+                \App\Utility\Mailer::sendContactMail(
+                    $article['email'],
+                    $article['username'],
+                    $email,
+                    $article['name'],
+                    $message
+                );
+
+                header('Location: /product/' . $articleId . '?sent=1');
+
+            } catch (\Exception $e) {
+                //error_log('[contactAction] ' . $e->getMessage());
+                //header('Location: /product/' . $articleId . '?error=server');
+                die('Erreur : ' . $e->getMessage());
+            }
+
+            exit;
+        }
+
+        header('Location: /');
+        exit;
     }
 }
