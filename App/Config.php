@@ -19,13 +19,15 @@ define('MAILTRAP_USER_VALUE', $_ENV['MAILTRAP_USER'] ?? getenv('MAILTRAP_USER') 
 define('MAILTRAP_PASS_VALUE', $_ENV['MAILTRAP_PASS'] ?? getenv('MAILTRAP_PASS') ?? '');
 define('MAILTRAP_FROM_VALUE', $_ENV['MAILTRAP_FROM'] ?? getenv('MAILTRAP_FROM') ?? 'noreply@videgrenierenligne.fr');
 
+define('APP_ENV', $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?? 'dev');
+
 class Config
 {
     const DB_HOST = DB_HOST_VALUE;
     const DB_NAME = DB_NAME_VALUE;
     const DB_USER = DB_USER_VALUE;
     const DB_PASSWORD = DB_PASSWORD_VALUE;
-    const SHOW_ERRORS = ($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'dev';
+    const SHOW_ERRORS = APP_ENV;
 
     const MAILTRAP_HOST = MAILTRAP_HOST_VALUE;
     const MAILTRAP_PORT = MAILTRAP_PORT_VALUE;
