@@ -1,18 +1,34 @@
-version: '3.9'
+name: bloc5-indiv-recette
+#version: '3.9'
 
 services:
   php:
     build:
       context: ./docker/recette/php
       dockerfile: Dockerfile
+    #image: bloc5-indiv:recette
+    container_name: bloc5-groupe-recette-php
+    ports:
+      - "8081:80"
     volumes: []
     environment:
       APP_ENV: recette
+      depends_on:
+        mysql:
+          condition: service_healthy
   
   mysql:
+    image: mariadb:10.11
+      container_name: bloc5-indiv-recette-mysql
     volumes:
       - mysql_data_recette:/var/lib/mysql
       - ./docker/dev/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
   
   phpmyadmin:
     profiles:

@@ -4,6 +4,7 @@ services:
     build:
       context: ./docker/dev/php
       dockerfile: Dockerfile
+    #image: bloc5-indiv:dev
     container_name: bloc5-indiv-dev-php
     restart: unless-stopped
     volumes:
