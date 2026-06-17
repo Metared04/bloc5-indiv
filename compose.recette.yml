@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: docker/recette/php/Dockerfile
     #image: bloc5-indiv:recette
-    container_name: bloc5-groupe-recette-php
+    container_name: bloc5-indiv-recette-php
     ports:
       - "8081:80"
     volumes: []
