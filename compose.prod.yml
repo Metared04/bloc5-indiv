@@ -3,9 +3,9 @@ name: bloc5-indiv-prod
 services:
   php:
     build:
-      context: ./docker/prod/php
-      dockerfile: Dockerfile
-    container_name: bloc5-groupe-prod-php
+      context: .
+      dockerfile: docker/prod/php/Dockerfile
+    container_name: bloc5-indiv-prod-php
     ports:
       - "8082:80"
     volumes: []
@@ -21,9 +21,9 @@ services:
       MAILTRAP_USER: ${MAILTRAP_USER}
       MAILTRAP_PASS: ${MAILTRAP_PASS}
       MAILTRAP_FROM: ${MAILTRAP_FROM}
-      depends_on:
-        mysql:
-          condition: service_healthy
+    depends_on:
+      mysql:
+        condition: service_healthy
   
   mysql:
     image: mariadb:10.11
