@@ -25,7 +25,7 @@ class Config
     const DB_NAME = DB_NAME_VALUE;
     const DB_USER = DB_USER_VALUE;
     const DB_PASSWORD = DB_PASSWORD_VALUE;
-    const SHOW_ERRORS = true;
+    const SHOW_ERRORS = ($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'dev';
 
     const MAILTRAP_HOST = MAILTRAP_HOST_VALUE;
     const MAILTRAP_PORT = MAILTRAP_PORT_VALUE;
