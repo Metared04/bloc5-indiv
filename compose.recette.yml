@@ -4,8 +4,8 @@ name: bloc5-indiv-recette
 services:
   php:
     build:
-      context: ./docker/recette/php
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/recette/php/Dockerfile
     #image: bloc5-indiv:recette
     container_name: bloc5-groupe-recette-php
     ports:
