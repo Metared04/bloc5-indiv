@@ -1,0 +1,14 @@
+vendor/
+.idea
+composer.lock
+.env*
+mysql/
+.git
+public/bootstrap/
+public/css/font-awesome.*
+public/fonts/fontawesome*
+node_modules/
+public/style/main.css
+docker/dev/mysql/data/
+.DS_Store
+Thumbs.db

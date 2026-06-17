@@ -1,0 +1,1 @@
+{"version":2,"defects":[],"times":{"Tests\\Unit\\ArticlesTest::testBuildOrderClauseWithViewsFilterReturnsSqlClause":0.156,"Tests\\Unit\\ArticlesTest::testBuildOrderClauseWithDateFilterReturnsSqlClause":0,"Tests\\Unit\\ArticlesTest::testBuildOrderClauseWithEmptyFilterReturnsEmptyString":0}}
