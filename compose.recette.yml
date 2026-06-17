@@ -29,7 +29,7 @@ services:
   
   mysql:
     image: mariadb:10.11
-      container_name: bloc5-indiv-recette-mysql
+    container_name: bloc5-indiv-recette-mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
