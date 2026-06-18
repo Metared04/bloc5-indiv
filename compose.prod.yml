@@ -10,7 +10,7 @@ services:
       - "8082:80"
     volumes: []
     environment:
-      APP_ENV: prod
+      APP_ENV: ${APP_ENV}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_NAME}
