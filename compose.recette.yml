@@ -10,7 +10,8 @@ services:
     container_name: bloc5-indiv-recette-php
     ports:
       - "8081:80"
-    volumes: []
+    volumes:
+      - storage_recette:/var/www/html/public/storage
     environment:
       APP_ENV: ${APP_ENV}
       DB_HOST: ${DB_HOST}
@@ -51,3 +52,4 @@ services:
 
 volumes:
   mysql_data_recette:
+  storage_recette:
